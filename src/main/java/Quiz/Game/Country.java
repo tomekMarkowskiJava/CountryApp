@@ -1,6 +1,6 @@
-package Quiz;
+package Quiz.Game;
 
-public class Country {
+class Country {
     String name;
     String capital;
     String region;
@@ -9,29 +9,18 @@ public class Country {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getCapital() {
         return capital;
-    }
-
-    public void setCapital(String capital) {
-        this.capital = capital;
     }
 
     public String getRegion() {
         return region;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
-    }
 
     @Override
     public String toString() {
-        return "Country name:" + name +
+        return "Country name: " + name +
                 ", capital city: " + capital +
                 ", region: " + region;
     }
