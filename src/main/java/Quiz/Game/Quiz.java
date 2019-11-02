@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -21,7 +22,7 @@ public class Quiz {
     public Quiz() throws IOException {
     }
 
-    public void start() {
+    public void start() throws InterruptedException {
         showMenu();
         Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
@@ -39,15 +40,31 @@ public class Quiz {
 
     }
 
-    private void play() {
+    private void play() throws InterruptedException {
         String region = choseRegion();
         System.out.println("You have choosen: " + region);
         int numberOfQuestions = 10;
-        Random random = new Random();
 
-        for (int i = 0; i < numberOfQuestions; i++) {
+        for (int i = 0; i < numberOfQuestions;) {
+            Random random = new Random();
             Country questionCountry = countries.get(random.nextInt(249));
-            System.out.println((i + 1 + ". What is the capital of " + questionCountry.name + "?"));
+            if (!region.equals(questionCountry.region)) {
+                continue;
+            }
+            System.out.println("Question no." + (i+1));
+            System.out.println("What is the capital of " + questionCountry.name + "?");
+            List <String> answers = new ArrayList<String>();
+            answers.add(questionCountry.capital);
+            for (int j = 0; j < 3; j++) {
+                answers.add(countries.get(random.nextInt(249)).capital);
+            }
+            Collections.shuffle(answers);
+            for (int j = 0; j < 4; j++) {
+                System.out.println(j+1+". " +answers.get(j));
+            }
+            System.out.println("");
+            Thread.sleep(1500);
+            i++;
         }
 
     }
