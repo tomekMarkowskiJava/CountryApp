@@ -8,13 +8,14 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 
 public class Quiz {
 
     private String jsonText = reading();
-    List<Country> countries = createListOfCountries(jsonText);
+    private List<Country> countries = createListOfCountries(jsonText);
 
 
     public Quiz() throws IOException {
@@ -39,12 +40,19 @@ public class Quiz {
     }
 
     private void play() {
-        showRegions();
+        String region = choseRegion();
+        System.out.println("You have choosen: " + region);
+        int numberOfQuestions = 10;
+        Random random = new Random();
 
+        for (int i = 0; i < numberOfQuestions; i++) {
+            Country questionCountry = countries.get(random.nextInt(249));
+            System.out.println((i + 1 + ". What is the capital of " + questionCountry.name + "?"));
+        }
 
     }
 
-    private List showRegions() {
+    private String choseRegion() {
         System.out.println("Choose the region: ");
         int i = 0;
         List<String> regions = new ArrayList<String>();
@@ -59,16 +67,19 @@ public class Quiz {
             System.out.println(regions.size() + ". " + regions.get(regions.size()-1));
             i++;
         }
-        return regions;
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+        return regions.get(choice - 1);
+
     }
 
-    public void showMenu() {
+    private void showMenu() {
         String dots = "**************";
         System.out.println(dots + "\n* CountryApp *\n" + dots);
         System.out.println("1. New Game\n2. Answers\n3. Exit");
     }
 
-    public void showCountries() {
+    private void showCountries() {
 
         int i = 1;
         for (Country country : countries
@@ -78,22 +89,22 @@ public class Quiz {
         }
     }
 
-    public List createListOfCountries(String jsonText) {
+    private List createListOfCountries(String jsonText) {
         List<LinkedTreeMap> temp;
         List<Country> countries = new ArrayList<Country>();
         Gson gson = new Gson();
         temp = gson.fromJson(jsonText, List.class);
-        for (int i = 0; i < temp.size(); i++) {
+        for (LinkedTreeMap linkedTreeMap : temp) {
             Country country = new Country();
-            country.name = (String) temp.get(i).get("name");
-            country.capital = (String) temp.get(i).get("capital");
-            country.region = (String) temp.get(i).get("region");
+            country.name = (String) linkedTreeMap.get("name");
+            country.capital = (String) linkedTreeMap.get("capital");
+            country.region = (String) linkedTreeMap.get("region");
             countries.add(country);
         }
         return countries;
     }
 
-    public static String reading() throws IOException {
+    private static String reading() throws IOException {
         String restCountriesAPI = "https://restcountries.eu/rest/v2/all";
         URL url = new URL(restCountriesAPI);
         URLConnection connection = url.openConnection();
