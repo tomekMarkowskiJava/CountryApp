@@ -23,21 +23,23 @@ public class Quiz {
     }
 
     public void start() throws InterruptedException {
-        showMenu();
-        Scanner scanner = new Scanner(System.in);
-        int choice = scanner.nextInt();
-        switch (choice) {
-            case 1:
-                play();
-                break;
-            case 2:
-                showCountries();
-                break;
-            case 3:
-                break;
+        boolean playing = true;
+        while (playing) {
+            showMenu();
+            Scanner scanner = new Scanner(System.in);
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    play();
+                    continue;
+                case 2:
+                    showCountries();
+                    continue;
+                case 3:
+                    playing = false;
+            }
+
         }
-
-
     }
 
     private void play() throws InterruptedException {
@@ -49,7 +51,7 @@ public class Quiz {
         for (int i = 0; i < numberOfQuestions; ) {
             Random random = new Random();
             Country questionCountry = countries.get(random.nextInt(249));
-            if (!region.equals(questionCountry.region)) {
+            if (!questionCountry.region.equals(region) || questionCountry.capital == null) {
                 continue;
             }
             System.out.println("Question no." + (i + 1));
@@ -58,7 +60,7 @@ public class Quiz {
             answers.add(questionCountry.capital);
             for (int j = 0; j < 3; ) {
                 Country answer = countries.get(random.nextInt(249));
-                if (!(region.equals(answer.region)) && !(answer.capital == null && !(answer.capital.equals(questionCountry.capital)))) {
+                if (!(region.equals(answer.region)) || (answer.capital == null) || (answer.capital.equals(questionCountry.capital))) {
                     continue;
                 } else {
                     answers.add(answer.capital);
@@ -66,8 +68,10 @@ public class Quiz {
                 }
             }
             Collections.shuffle(answers);
+            Collections.shuffle(answers);
+
             for (int j = 0; j < 4; j++) {
-                System.out.println(j + 1 + ". " + answers.get(j));
+                System.out.println(j+1 + ". " + answers.get(j));
             }
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
@@ -81,7 +85,8 @@ public class Quiz {
             System.out.println("\n" + dots + "\n");
             i++;
         }
-        System.out.println("Your points : " + points + "/10.");
+        System.out.println("Your points : " + points + "/10.\n");
+        Thread.sleep(1500);
 
     }
 
@@ -112,7 +117,7 @@ public class Quiz {
         System.out.println("1. New Game\n2. Answers\n3. Exit");
     }
 
-    private void showCountries() {
+    private void showCountries() throws InterruptedException {
 
         int i = 1;
         for (Country country : countries
@@ -120,6 +125,8 @@ public class Quiz {
             System.out.println(i + ". " + country.toString());
             i++;
         }
+        Thread.sleep(1500);
+
     }
 
     private List createListOfCountries(String jsonText) {
