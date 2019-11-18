@@ -71,7 +71,7 @@ public class Quiz {
             Collections.shuffle(answers);
 
             for (int j = 0; j < 4; j++) {
-                System.out.println(j+1 + ". " + answers.get(j));
+                System.out.println(j + 1 + ". " + answers.get(j));
             }
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
@@ -126,7 +126,6 @@ public class Quiz {
             i++;
         }
         Thread.sleep(1500);
-
     }
 
     private List createListOfCountries(String jsonText) {
