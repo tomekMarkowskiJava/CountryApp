@@ -1,6 +1,7 @@
 package Quiz.Game;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
 
 import java.io.IOException;
@@ -135,9 +136,16 @@ public class Quiz {
         temp = gson.fromJson(jsonText, List.class);
         for (LinkedTreeMap linkedTreeMap : temp) {
             Country country = new Country();
-            country.name = (String) linkedTreeMap.get("name");
-            country.capital = (String) linkedTreeMap.get("capital");
-            country.region = (String) linkedTreeMap.get("region");
+
+//            Old method
+//            country.name = (String) linkedTreeMap.get("name");
+//            country.capital = (String) linkedTreeMap.get("capital");
+//            country.region = (String) linkedTreeMap.get("region");
+//            countries.add(country);
+
+
+            JsonObject jsonObject = gson.toJsonTree(linkedTreeMap).getAsJsonObject();
+            country = gson.fromJson(jsonObject, Country.class);
             countries.add(country);
         }
         return countries;

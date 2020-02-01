@@ -13,22 +13,22 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private int id;
+    private long id;
+
     @Column
     private String name;
+
     @Column
     private int points;
+
     @Column
     private int numberOfGames;
     @Column
     double correctAnswersPercent;
-
-    public User(String name) {
-        this.name = name;
+    public User() {
         points = 0;
         numberOfGames = 0;
     }
-
     public String getName() {
         return name;
     }
@@ -43,5 +43,13 @@ public class User {
 
     public double getCorrectAnswersPercent() {
         return correctAnswersPercent;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
