@@ -7,5 +7,6 @@ public class Main {
 
 Quiz quiz = new Quiz();
 quiz.start();
+
     }
 }
