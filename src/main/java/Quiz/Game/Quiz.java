@@ -18,7 +18,7 @@ public class Quiz {
 
     private String jsonText = reading();
     private List<Country> countries = createListOfCountries(jsonText);
-    String dots = "**************";
+    private String dots = "**************";
 
     public Quiz() throws IOException {
     }
@@ -52,17 +52,16 @@ public class Quiz {
         for (int i = 0; i < numberOfQuestions; ) {
             Random random = new Random();
             Country questionCountry = countries.get(random.nextInt(249));
-            if (!questionCountry.region.equals(region) || questionCountry.capital == null) {
+            if (!questionCountry.region.equals(region) || questionCountry.capital.isEmpty()) {
                 continue;
             }
             System.out.println("Question no." + (i + 1));
             System.out.println("What is the capital of " + questionCountry.name + "?");
-            List<String> answers = new ArrayList<String>();
+            List<String> answers = new ArrayList<>();
             answers.add(questionCountry.capital);
             for (int j = 0; j < 3; ) {
                 Country answer = countries.get(random.nextInt(249));
-                if (!(region.equals(answer.region)) || (answer.capital == null) || (answer.capital.equals(questionCountry.capital))) {
-                    continue;
+                if (!(region.equals(answer.region)) || (answer.capital.isEmpty()) || (answer.capital.equals(questionCountry.capital))) {
                 } else {
                     answers.add(answer.capital);
                     j++;
@@ -94,7 +93,7 @@ public class Quiz {
     private String choseRegion() {
         System.out.println("Choose the region: ");
         int i = 0;
-        List<String> regions = new ArrayList<String>();
+        List<String> regions = new ArrayList<>();
         while (!(regions.size() == 5)) {
             String region = countries.get(i).region;
             if (regions.contains(region)) {
@@ -131,7 +130,7 @@ public class Quiz {
 
     private List createListOfCountries(String jsonText) {
         List<LinkedTreeMap> temp;
-        List<Country> countries = new ArrayList<Country>();
+        List<Country> countries = new ArrayList<>();
         Gson gson = new Gson();
         temp = gson.fromJson(jsonText, List.class);
         for (LinkedTreeMap linkedTreeMap : temp) {
